@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Gagana ✨</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #080808;
+  color: #f9e6a5;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 18px;
+  background: radial-gradient(ellipse at top, #49330d, #080808 65%);
+}
+.gold { color: #f6d778; }
+h1 {
+  font-size: clamp(42px, 12vw, 66px);
+  margin: 15px 0;
+  text-shadow: 0 0 25px #c99a2e;
+}
+p { line-height: 1.8; }
+button {
+  background: linear-gradient(135deg,#f8e5a0,#bd8b25);
+  color: #171006;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 23px;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 9px 4px;
+  cursor: pointer;
+}
+section { padding: 35px 18px; }
+h2 { color: #f6d778; }
+.card {
+  max-width: 520px;
+  margin: 20px auto;
+  padding: 24px;
+  border: 1px solid #b9903c;
+  border-radius: 18px;
+  background: #11100c;
+  box-shadow: 0 0 22px #6e501a22;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 520px;
+  margin: auto;
+}
+.gallery img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border: 1px solid #c7a34b;
+  border-radius: 12px;
+}
+#letter, #surprise { display: none; }
+#surprise h2 { font-size: 32px; }
+footer { padding: 25px; color: #ad945b; }
+.sparkle { color: #ffe8a0; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="sparkle">✧ ✨ ✧</div>
+  <p class="gold">A SPECIAL DAY • A SPECIAL SOUL</p>
+  <h1>Happy Birthday<br>Gagana ♡</h1>
+  <p>To my favourite human, my chaos partner<br>
+  and my forever friend. 🖤</p>
+  <button onclick="document.getElementById('memories').scrollIntoView({behavior:'smooth'})">
+    Open Your Gift 🎁
+  </button>
+  <button onclick="toggleMusic()" id="musicBtn">♫ Play Music</button>
+  <audio id="music" src="music.mp3" loop></audio>
+  <p style="font-size:12px;color:#bda66d">
+    A little surprise made just for you ✨
+  </p>
+</div>
+
+<section id="memories">
+  <h2>Our Golden Memories ✨</h2>
+  <p>Every picture holds a little piece of happiness.</p>
+  <div class="gallery">
+    <img src="photo1.jpg" alt="Our memory one">
+    <img src="photo2.jpg" alt="Our memory two">
+    <img src="photo3.jpg" alt="Our memory three">
+    <img src="photo4.jpg" alt="Our memory four">
+  </div>
+  <p style="font-size:13px">More memories, more madness, more us. 💛</p>
+</section>
+
+<section>
+  <h2>A Little Letter For You 💌</h2>
+  <div class="card">
+    <p>To my dearest Gagana,</p>
+    <p>
+      Happy Birthday to the person who makes ordinary
+      moments unforgettable! I'm so lucky to have you
+      in my life. Thank you for the laughs, the memories,
+      the madness and all the little things that make
+      our friendship special.
+    </p>
+    <p>
+      May this year bring you endless happiness,
+      beautiful surprises, success and all the love
+      your heart deserves. Never stop being your
+      wonderful, crazy self.
+    </p>
+    <p class="gold">You deserve the whole universe. 🌙</p>
+    <p>Forever your partner in crime. 🖤</p>
+  </div>
+  <button onclick="document.getElementById('letter').style.display='block'">
+    One More Thing... 💌
+  </button>
+  <div class="card" id="letter">
+    <h2>And finally...</h2>
+    <p>Love you loads, you absolute legend! 🥹💛</p>
+    <p>Life would be so boring without you.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Ready for the Surprise? 🎉</h2>
+  <p>Tap below, birthday girl!</p>
+  <button onclick="reveal()">REVEAL YOUR SURPRISE ✨</button>
+  <div class="card" id="surprise">
+    <div style="font-size:45px">🎂 👑 🎉</div>
+    <h2>LOOOOOOOOSUUUUUU 😂💛</h2>
+    <p>HAHAHA! Never change, Gagana!</p>
+    <p>Happy Birthday, loosu! Love youuuuu! ♡</p>
+    <div class="sparkle">✨ ✨ ✨ ✨ ✨</div>
+  </div>
+</section>
+
+<footer>
+  Made with love, laughter & a little madness ♡<br>
+  <span class="gold">For Gagana, always.</span>
+</footer>
+
+<script>
+function toggleMusic() {
+  const music = document.getElementById('music');
+  const btn = document.getElementById('musicBtn');
+  if (music.paused) {
+    music.play().then(() => {
+      btn.textContent = '♫ Pause Music';
+    }).catch(() => {
+      alert('Please upload music.mp3 to your repository first.');
+    });
+  } else {
+    music.pause();
+    btn.textContent = '♫ Play Music';
+  }
+}
+function reveal() {
+  const surprise = document.getElementById('surprise');
+  surprise.style.display = 'block';
+  surprise.scrollIntoView({behavior:'smooth', block:'center'});
+  for (let i=0; i<18; i++) {
+    const star = document.createElement('span');
+    star.textContent = ['✨','💛','🎉','⭐'][i%4];
+    star.style.cssText = 'position:fixed;top:-30px;left:' +
+      Math.random()*95 + 'vw;font-size:25px;z-index:9;pointer-events:none';
+    document.body.appendChild(star);
+    star.animate([
+      {transform:'translateY(0) rotate(0deg)',opacity:1},
+      {transform:'translateY(100vh) rotate(500deg)',opacity:0}
+    ], {duration:2200+Math.random()*1800});
+    setTimeout(()=>star.remove(), 4200);
+  }
+}
+</script>
+</body>
+</html>
