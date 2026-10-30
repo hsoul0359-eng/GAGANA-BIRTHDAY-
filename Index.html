@@ -1,183 +1,369 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday!</title>
+
+  <title>Happy Birthday ❤️</title>
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3, #a18cd1);
-      color: white;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      color: #5a2430;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 60px 20px;
       text-align: center;
     }
 
-    .card {
-      width: 90%;
-      max-width: 450px;
-      padding: 35px 20px;
-      border-radius: 25px;
-      background: rgba(255, 255, 255, 0.17);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
-      animation: appear 1.5s ease;
-      z-index: 2;
-    }
-
     h1 {
-      font-size: clamp(2rem, 8vw, 3rem);
+      font-size: clamp(2.5rem, 7vw, 5rem);
       margin-bottom: 15px;
-      text-shadow: 2px 3px 10px #ff4d6d;
-      animation: glow 2s infinite alternate;
+      animation: fadeDown 1.2s ease;
     }
 
-    .cake {
-      font-size: 90px;
-      margin: 15px 0;
-      animation: bounce 1.5s infinite;
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 50px;
+      animation: fadeUp 1.5s ease;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.7;
-      margin: 12px 0;
+    /* PHOTO GRID */
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
     }
 
-    .name {
-      color: #fff176;
-      font-weight: bold;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 13px 25px;
-      border: none;
-      border-radius: 30px;
-      background: #fff;
-      color: #e84373;
-      font-size: 16px;
-      font-weight: bold;
+    .photo-card {
+      position: relative;
+      height: 280px;
+      border-radius: 20px;
+      overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
     }
 
-    button:hover {
+    .photo-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-card:hover img {
       transform: scale(1.08);
     }
 
-    #surprise {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .balloon {
+    .photo-label {
       position: absolute;
-      bottom: -150px;
-      font-size: 45px;
-      animation: floatUp 8s linear infinite;
-      z-index: 1;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      background: linear-gradient(
+        transparent,
+        rgba(0, 0, 0, 0.75)
+      );
+      color: white;
+      font-size: 1rem;
+      text-align: left;
     }
 
-    .balloon:nth-child(1) { left: 5%; animation-delay: 0s; }
-    .balloon:nth-child(2) { left: 25%; animation-delay: 2s; }
-    .balloon:nth-child(3) { left: 70%; animation-delay: 1s; }
-    .balloon:nth-child(4) { left: 90%; animation-delay: 3s; }
+    /* POPUP */
+
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .popup.active {
+      display: flex;
+    }
+
+    .popup-content {
+      position: relative;
+      max-width: 500px;
+      width: 100%;
+      background: #fff5f7;
+      border-radius: 25px;
+      padding: 40px 30px;
+      text-align: center;
+      animation: popupIn 0.35s ease;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup-content h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .popup-content p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      border: none;
+      background: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #5a2430;
+    }
+
+    /* HEARTS */
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 5s linear infinite;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* ANIMATIONS */
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popupIn {
+      from {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
     @keyframes floatUp {
-      from { transform: translateY(0) rotate(0deg); }
-      to { transform: translateY(-120vh) rotate(25deg); }
+      from {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      to {
+        transform: translateY(-110vh) rotate(360deg);
+      }
     }
 
-    @keyframes bounce {
-      50% { transform: translateY(-12px); }
-    }
+    @media (max-width: 600px) {
+      .photo-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 8px #fff; }
-      to { text-shadow: 0 0 25px #fff176; }
-    }
+      .photo-card {
+        height: 220px;
+      }
 
-    @keyframes appear {
-      from { opacity: 0; transform: scale(0.7); }
-      to { opacity: 1; transform: scale(1); }
+      .popup-content {
+        padding: 35px 20px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="balloon">🎈</div>
-  <div class="balloon">🎈</div>
-  <div class="balloon">🎈</div>
-  <div class="balloon">🎈</div>
+  <div class="container">
 
-  <div class="card">
-    <h1>🎉 Happy Birthday! 🎉</h1>
+    <h1>🎂 Happy Birthday ❤️</h1>
 
-    <p>Dear <span class="name">Your Name</span>,</p>
-
-    <div class="cake">🎂</div>
-
-    <p>
-      Wishing you a day filled with love, laughter,
-      happiness, and beautiful memories!
+    <p class="subtitle">
+      A little collection of memories, wishes and special moments ✨
     </p>
 
-    <p>
-      May all your dreams come true and may your
-      life shine brighter every day. 💖
-    </p>
+    <div class="photo-grid">
 
-    <button onclick="showSurprise()">
-      🎁 Click for a Surprise
-    </button>
+      <!-- PHOTO 1 -->
+      <div
+        class="photo-card"
+        onclick="showMessage(
+          'A Special Memory ❤️',
+          'Every moment captured here is a memory I will always treasure. Happy Birthday!'
+        )"
+      >
+        <img src="photos/photo1.jpg" alt="Memory 1">
+        <div class="photo-label">A beautiful memory ❤️</div>
+      </div>
 
-    <div id="surprise"></div>
+
+      <!-- PHOTO 2 -->
+      <div
+        class="photo-card"
+        onclick="showMessage(
+          'Another Beautiful Moment ✨',
+          'May your birthday be filled with happiness, laughter and everything your heart wishes for.'
+        )"
+      >
+        <img src="photos/photo2.jpg" alt="Memory 2">
+        <div class="photo-label">One more memory ✨</div>
+      </div>
+
+
+      <!-- PHOTO 3 -->
+      <div
+        class="photo-card"
+        onclick="showMessage(
+          'Keep Smiling 😊',
+          'Your smile makes every moment brighter. Never stop smiling and keep being amazing!'
+        )"
+      >
+        <img src="photos/photo3.jpg" alt="Memory 3">
+        <div class="photo-label">Keep smiling 😊</div>
+      </div>
+
+
+      <!-- PHOTO 4 -->
+      <div
+        class="photo-card"
+        onclick="showMessage(
+          'For You 💕',
+          'Wishing you a year full of beautiful surprises, unforgettable memories and endless happiness.'
+        )"
+      >
+        <img src="photos/photo4.jpg" alt="Memory 4">
+        <div class="photo-label">Just for you 💕</div>
+      </div>
+
+    </div>
+
   </div>
 
+
+  <!-- POPUP -->
+
+  <div class="popup" id="popup">
+
+    <div class="popup-content">
+
+      <button class="close-btn" onclick="closeMessage()">
+        ×
+      </button>
+
+      <h2 id="popupTitle"></h2>
+
+      <p id="popupMessage"></p>
+
+    </div>
+
+  </div>
+
+
   <script>
-    function showSurprise() {
-      document.getElementById("surprise").innerHTML =
-        "🥳 You are amazing! 💖<br>" +
-        "May your birthday be magical! ✨🎉";
 
-      // Create floating hearts
-      for (let i = 0; i < 15; i++) {
-        const heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.style.position = "absolute";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.bottom = "-40px";
-        heart.style.fontSize = "25px";
-        heart.style.transition = "transform 4s ease, opacity 4s";
-        heart.style.zIndex = "3";
-        document.body.appendChild(heart);
+    function showMessage(title, message) {
 
-        requestAnimationFrame(() => {
-          heart.style.transform =
-            `translateY(-${window.innerHeight + 100}px) rotate(360deg)`;
-          heart.style.opacity = "0";
-        });
+      document.getElementById("popupTitle").textContent = title;
 
-        setTimeout(() => heart.remove(), 4200);
-      }
+      document.getElementById("popupMessage").textContent = message;
+
+      document.getElementById("popup").classList.add("active");
+
     }
+
+
+    function closeMessage() {
+
+      document.getElementById("popup").classList.remove("active");
+
+    }
+
+
+    // Close popup when clicking outside it
+
+    document.getElementById("popup").addEventListener("click", function(event) {
+
+      if (event.target === this) {
+        closeMessage();
+      }
+
+    });
+
+
+    // Floating hearts
+
+    function createHeart() {
+
+      const heart = document.createElement("div");
+
+      heart.className = "heart";
+
+      heart.innerHTML = "❤️";
+
+      heart.style.left = Math.random() * 100 + "vw";
+
+      heart.style.animationDuration =
+        (Math.random() * 3 + 3) + "s";
+
+      heart.style.fontSize =
+        (Math.random() * 15 + 15) + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+
+    }
+
+
+    setInterval(createHeart, 700);
+
   </script>
 
 </body>
-</html>
