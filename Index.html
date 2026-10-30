@@ -1,369 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Happy Birthday ❤️</title>
+    <title>Happy Birthday ❤️</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      min-height: 100vh;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      color: #5a2430;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            color: #fff;
+            text-align: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 60px 20px;
-      text-align: center;
-    }
+        .container {
+            padding: 35px 15px;
+            max-width: 1000px;
+            margin: auto;
+        }
 
-    h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      margin-bottom: 15px;
-      animation: fadeDown 1.2s ease;
-    }
+        h1 {
+            font-size: clamp(2.2rem, 7vw, 4rem);
+            color: #fff;
+            text-shadow: 3px 3px 8px #e75480;
+            animation: bounce 2s infinite;
+        }
 
-    .subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 50px;
-      animation: fadeUp 1.5s ease;
-    }
+        .subtitle {
+            font-size: 1.2rem;
+            margin: 18px 0;
+            color: #fff;
+        }
 
-    /* PHOTO GRID */
+        .cake {
+            font-size: 65px;
+            margin: 15px;
+            animation: bounce 1.5s infinite;
+        }
 
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
-    }
+        /* Four-photo gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            max-width: 650px;
+            margin: 30px auto;
+        }
 
-    .photo-card {
-      position: relative;
-      height: 280px;
-      border-radius: 20px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
-    }
+        .photo {
+            background: white;
+            padding: 8px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(100, 0, 40, 0.25);
+            transition: transform 0.3s;
+        }
 
-    .photo-card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
-    }
+        .photo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
 
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
+        .photo img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
 
-    .photo-card:hover img {
-      transform: scale(1.08);
-    }
+        .caption {
+            color: #e75480;
+            font-weight: bold;
+            padding: 10px 0 5px;
+        }
 
-    .photo-label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 15px;
-      background: linear-gradient(
-        transparent,
-        rgba(0, 0, 0, 0.75)
-      );
-      color: white;
-      font-size: 1rem;
-      text-align: left;
-    }
+        button {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 30px;
+            font-size: 17px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px #d94b79;
+            transition: 0.3s;
+            margin: 15px 0;
+        }
 
-    /* POPUP */
+        button:hover {
+            background: #e91e63;
+            transform: scale(1.06);
+        }
 
-    .popup {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 1000;
-    }
+        #message {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 650px;
+            line-height: 1.8;
+            font-size: 18px;
+            animation: fadeIn 1s;
+        }
 
-    .popup.active {
-      display: flex;
-    }
+        .footer {
+            margin-top: 25px;
+            font-size: 16px;
+        }
 
-    .popup-content {
-      position: relative;
-      max-width: 500px;
-      width: 100%;
-      background: #fff5f7;
-      border-radius: 25px;
-      padding: 40px 30px;
-      text-align: center;
-      animation: popupIn 0.35s ease;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
+        /* Floating hearts */
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            pointer-events: none;
+            animation: floatUp 6s linear forwards;
+            z-index: 10;
+        }
 
-    .popup-content h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-    .popup-content p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-    }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
 
-    .close-btn {
-      position: absolute;
-      top: 12px;
-      right: 18px;
-      border: none;
-      background: none;
-      font-size: 30px;
-      cursor: pointer;
-      color: #5a2430;
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    /* HEARTS */
+        @media (max-width: 480px) {
+            .gallery {
+                gap: 10px;
+            }
 
-    .heart {
-      position: fixed;
-      bottom: -20px;
-      font-size: 20px;
-      animation: floatUp 5s linear infinite;
-      pointer-events: none;
-      opacity: 0.7;
-    }
+            .photo img {
+                height: 160px;
+            }
 
-    /* ANIMATIONS */
-
-    @keyframes fadeDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes popupIn {
-      from {
-        opacity: 0;
-        transform: scale(0.7);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes floatUp {
-      from {
-        transform: translateY(0) rotate(0deg);
-      }
-
-      to {
-        transform: translateY(-110vh) rotate(360deg);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .photo-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-      }
-
-      .photo-card {
-        height: 220px;
-      }
-
-      .popup-content {
-        padding: 35px 20px;
-      }
-    }
-  </style>
+            .container {
+                padding: 25px 12px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="container">
+    <div class="container">
 
-    <h1>🎂 Happy Birthday ❤️</h1>
+        <div class="cake">🎂</div>
 
-    <p class="subtitle">
-      A little collection of memories, wishes and special moments ✨
-    </p>
+        <!-- Change the name here -->
+        <h1>Happy Birthday, Bestie! 💖</h1>
 
-    <div class="photo-grid">
+        <p class="subtitle">
+            Today is all about you! 🥳✨
+        </p>
 
-      <!-- PHOTO 1 -->
-      <div
-        class="photo-card"
-        onclick="showMessage(
-          'A Special Memory ❤️',
-          'Every moment captured here is a memory I will always treasure. Happy Birthday!'
-        )"
-      >
-        <img src="photos/photo1.jpg" alt="Memory 1">
-        <div class="photo-label">A beautiful memory ❤️</div>
-      </div>
+        <p>
+            Four memories, countless smiles, and a million reasons to celebrate! 💕
+        </p>
 
+        <!-- FOUR PHOTOS -->
+        <div class="gallery">
 
-      <!-- PHOTO 2 -->
-      <div
-        class="photo-card"
-        onclick="showMessage(
-          'Another Beautiful Moment ✨',
-          'May your birthday be filled with happiness, laughter and everything your heart wishes for.'
-        )"
-      >
-        <img src="photos/photo2.jpg" alt="Memory 2">
-        <div class="photo-label">One more memory ✨</div>
-      </div>
+            <div class="photo">
+                <img src="photo1.jpg" alt="Birthday memory 1">
+                <div class="caption">Beautiful Memories 💗</div>
+            </div>
 
+            <div class="photo">
+                <img src="photo2.jpg" alt="Birthday memory 2">
+                <div class="caption">Endless Smiles 😊</div>
+            </div>
 
-      <!-- PHOTO 3 -->
-      <div
-        class="photo-card"
-        onclick="showMessage(
-          'Keep Smiling 😊',
-          'Your smile makes every moment brighter. Never stop smiling and keep being amazing!'
-        )"
-      >
-        <img src="photos/photo3.jpg" alt="Memory 3">
-        <div class="photo-label">Keep smiling 😊</div>
-      </div>
+            <div class="photo">
+                <img src="photo3.jpg" alt="Birthday memory 3">
+                <div class="caption">Special Moments 🌸</div>
+            </div>
 
+            <div class="photo">
+                <img src="photo4.jpg" alt="Birthday memory 4">
+                <div class="caption">Forever Memories ❤️</div>
+            </div>
 
-      <!-- PHOTO 4 -->
-      <div
-        class="photo-card"
-        onclick="showMessage(
-          'For You 💕',
-          'Wishing you a year full of beautiful surprises, unforgettable memories and endless happiness.'
-        )"
-      >
-        <img src="photos/photo4.jpg" alt="Memory 4">
-        <div class="photo-label">Just for you 💕</div>
-      </div>
+        </div>
 
-    </div>
+        <button onclick="showMessage()">
+            🎁 Open Your Birthday Surprise 🎁
+        </button>
 
-  </div>
+        <div id="message">
+            <h2>💖 A Special Wish for You 💖</h2>
 
+            <p>
+                Happy Birthday to an incredibly special person! 🎂🎉
+                <br><br>
+                May your life always be filled with happiness,
+                love, laughter, and beautiful memories.
+                May every dream you carry in your heart come true.
+                <br><br>
+                Keep smiling, keep shining, and never stop being
+                the amazing person you are. You deserve all the
+                wonderful things this world has to offer! 🥹💕
+                <br><br>
+                Here's to another year of unforgettable moments,
+                endless laughter, and beautiful adventures! 🥂✨
+                <br><br>
+                <strong>Lots of love, today and always! ❤️</strong>
+            </p>
+        </div>
 
-  <!-- POPUP -->
-
-  <div class="popup" id="popup">
-
-    <div class="popup-content">
-
-      <button class="close-btn" onclick="closeMessage()">
-        ×
-      </button>
-
-      <h2 id="popupTitle"></h2>
-
-      <p id="popupMessage"></p>
+        <div class="footer">
+            Made with ❤️, just for you! 🎀
+        </div>
 
     </div>
 
-  </div>
+    <script>
+        function showMessage() {
+            const message = document.getElementById("message");
 
+            message.style.display = "block";
 
-  <script>
+            // Reveal the message and scroll to it
+            message.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
 
-    function showMessage(title, message) {
+            // Create a little celebration
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }
 
-      document.getElementById("popupTitle").textContent = title;
+        function createHeart() {
+            const heart = document.createElement("div");
 
-      document.getElementById("popupMessage").textContent = message;
+            heart.className = "heart";
 
-      document.getElementById("popup").classList.add("active");
+            const symbols = ["❤️", "💖", "💕", "💗", "💘", "✨"];
+            heart.textContent =
+                symbols[Math.floor(Math.random() * symbols.length)];
 
-    }
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (18 + Math.random() * 25) + "px";
+            heart.style.animationDuration =
+                (3 + Math.random() * 4) + "s";
 
+            document.body.appendChild(heart);
 
-    function closeMessage() {
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
 
-      document.getElementById("popup").classList.remove("active");
-
-    }
-
-
-    // Close popup when clicking outside it
-
-    document.getElementById("popup").addEventListener("click", function(event) {
-
-      if (event.target === this) {
-        closeMessage();
-      }
-
-    });
-
-
-    // Floating hearts
-
-    function createHeart() {
-
-      const heart = document.createElement("div");
-
-      heart.className = "heart";
-
-      heart.innerHTML = "❤️";
-
-      heart.style.left = Math.random() * 100 + "vw";
-
-      heart.style.animationDuration =
-        (Math.random() * 3 + 3) + "s";
-
-      heart.style.fontSize =
-        (Math.random() * 15 + 15) + "px";
-
-      document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 6000);
-
-    }
-
-
-    setInterval(createHeart, 700);
-
-  </script>
+        // Continuously create floating hearts
+        setInterval(createHeart, 500);
+    </script>
 
 </body>
+</html>
